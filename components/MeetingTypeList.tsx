@@ -123,7 +123,9 @@ const MeetingTypeList = () => {
                         <ReactDatePicker
                             className="bg-blue-900 rounded w-full p-2 focus:outline-none"
                             selected={values.dateTime}
-                            onChange={(date) => setValues({ ...values, dateTime: date! })}
+                            onChange={(date: Date | null) =>
+                                setValues({ ...values, dateTime: date ?? new Date() })
+                            }
                             showTimeSelect
                             timeFormat="HH:mm"
                             timeIntervals={15}
@@ -164,29 +166,28 @@ const MeetingTypeList = () => {
                     handleClick={createMeeting}
                 />
             )}
-            <MeetingModel
-                    isOpen={meetingState === 'isJoiningMeeting'}
-                    onClose={() => setMeetingState(undefined)}
-                    title="Type the link here"
-                    buttonText="Join Meeting"
-                    className="text-center"
-                    handleClick={() => {
-                        if (!values.link) {
-                            toast({ title: 'Please enter a meeting link' })
-                            return
-                        }
-                        router.push(values.link)
-                        }}
 
+            {/* Join Meeting Modal */}
+            <MeetingModel
+                isOpen={meetingState === 'isJoiningMeeting'}
+                onClose={() => setMeetingState(undefined)}
+                title="Type the link here"
+                buttonText="Join Meeting"
+                className="text-center"
+                handleClick={() => {
+                    if (!values.link) {
+                        toast({ title: 'Please enter a meeting link' })
+                        return
+                    }
+                    router.push(values.link)
+                }}
             >
                 <Input
-                  placeholder="Meeting link"
-                  className=" border-none bg-blue-900 text-white focus-visible:ring-0
-                  focus-visible:ring-offset-0"
-                  onChange={(e) => setValues({...values, link: e.target.value})}      
+                    placeholder="Meeting link"
+                    className="border-none bg-blue-900 text-white focus-visible:ring-0 focus-visible:ring-offset-0"
+                    onChange={(e) => setValues({ ...values, link: e.target.value })}
                 />
             </MeetingModel>
-                
         </section>
     )
 }
