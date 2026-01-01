@@ -91,9 +91,10 @@ const CallList = ({ type }: { type: 'ended' | 'upcoming' | 'recordings' }) => {
               }
               date={
                 !isRecording
-                  ? meeting.state?.startsAt?.toLocaleString()
-                  : meeting.start_time?.toLocaleString()
+                  ? meeting.state?.startsAt?.toLocaleString() ?? '—'
+                  : meeting.start_time?.toLocaleString() ?? '—'
               }
+
               isPreviousMeeting={type === 'ended'}
               link={
                 isRecording
